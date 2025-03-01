@@ -60,10 +60,6 @@ $ npm run test:cov
 
 ## Deployment
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
 ```bash
 $ npm install -g mau
 $ mau deploy
@@ -71,29 +67,89 @@ $ mau deploy
 
 With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
 
-## Resources
+## Estrutura do Projeto
 
-Check out a few resources that may come in handy when working with NestJS:
+biblia365-backend/
+│
+├── src/
+│   ├── auth/
+│   │   ├── auth.controller.ts         # Controlador de autenticação (login e registro)
+│   │   ├── auth.module.ts             # Módulo de autenticação
+│   │   ├── auth.service.ts            # Serviço de autenticação (login, cadastro)
+│   │   ├── jwt.strategy.ts           # Estratégia de JWT
+│   │   └── local.strategy.ts         # Estratégia de autenticação local
+│   │
+│   ├── user/
+│   │   ├── user.controller.ts        # Controlador de usuários
+│   │   ├── user.module.ts            # Módulo de usuários
+│   │   ├── user.service.ts           # Serviço de usuários (CRUD)
+│   │   ├── user.entity.ts            # Entidade de usuários
+│   │   └── user.dto.ts               # Data Transfer Object (DTO) de usuário
+│   │
+│   ├── bible/
+│   │   ├── bible.controller.ts       # Controlador para acessar a API da Bíblia
+│   │   ├── bible.module.ts           # Módulo para a API da Bíblia
+│   │   └── bible.service.ts          # Serviço que consulta a API da Bíblia
+│   │
+│   ├── app.controller.ts             # Controlador principal do NestJS
+│   ├── app.module.ts                 # Módulo principal do NestJS
+│   ├── app.service.ts                # Serviço principal do NestJS
+│   └── main.ts                       # Arquivo de inicialização
+│
+├── .env                              # Arquivo de variáveis de ambiente (ex: JWT_SECRET)
+├── ormconfig.json                    # Configuração do TypeORM (se usar banco de dados relacional)
+├── package.json                      # Dependências e scripts do backend
+├── tsconfig.json                     # Arquivo de configuração do TypeScript
+└── tslint.json                       # Arquivo de configuração do TSLint
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Explicação de Algumas Pastas e Arquivos:
 
-## Support
+Back-end (NestJS)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+auth/: Pasta que contém toda a parte de autenticação, como o controlador, serviço e estratégias de autenticação (JWT, local).
+user/: Onde está o CRUD de usuários, contendo a entidade User, o serviço para manipulação dos dados dos usuários e o controlador para gerenciar os endpoints relacionados a usuários.
+bible/: Contém o controlador e serviço para consultar a API da Bíblia e fornecer os dados dos livros, capítulos e versículos.
+app.module.ts: Arquivo de configuração principal do NestJS onde todos os módulos são importados.
 
-## Stay in touch
+# Estrutura do Back-End (NestJS) para o Projeto Biblia365
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Este documento descreve os passos para criar a estrutura de pastas e arquivos do back-end utilizando **NestJS** no projeto **Biblia365**.
 
-## License
+## Passos para Criar a Estrutura de Pastas e Arquivos
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### 1. Criar o Projeto NestJS
+
+Primeiro, crie o projeto NestJS utilizando o comando abaixo:
+
+```bash
+nest new biblia365-backend
+``` 
+
+## Comandos install
+
+# 1. Criar o projeto NestJS
+nest new biblia365-backend
+
+# 2. Criar módulo de autenticação
+nest generate module auth
+nest generate controller auth/auth
+nest generate service auth/auth
+touch src/auth/jwt.strategy.ts
+touch src/auth/local.strategy.ts
+
+# 3. Criar módulo de usuários
+nest generate module user
+nest generate controller user/user
+nest generate service user/user
+touch src/user/user.entity.ts
+touch src/user/user.dto.ts
+
+# 4. Criar módulo da Bíblia
+nest generate module bible
+nest generate controller bible/bible
+nest generate service bible/bible
+
+# 5. Instalar dependências (se necessário)
+npm install @nestjs/jwt @nestjs/passport passport passport-local bcrypt
+npm install @nestjs/typeorm typeorm mysql2
+npm install dotenv
